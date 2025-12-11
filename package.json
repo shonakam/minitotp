@@ -1,0 +1,16 @@
+{
+  "name": "BaseN-ts",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "git@github.com:shonakam/BaseN-ts.git",
+  "author": "shonakam <g3tsuzumi@gmail.com>",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/node": "^25.0.0",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.9.3"
+  },
+  "scripts": {
+    "test": "ts-node --prefer-ts-exts BaseN.test.ts"
+  }
+}
