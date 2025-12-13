@@ -1,5 +1,5 @@
 {
-  "name": "BaseN-ts",
+  "name": "Base32-ts",
   "version": "1.0.0",
   "main": "index.js",
   "repository": "git@github.com:shonakam/BaseN-ts.git",
@@ -7,10 +7,15 @@
   "license": "MIT",
   "devDependencies": {
     "@types/node": "^25.0.0",
+    "@types/qrcode": "^1.5.6",
     "ts-node": "^10.9.2",
     "typescript": "^5.9.3"
   },
   "scripts": {
-    "test": "ts-node --prefer-ts-exts BaseN.test.ts"
+    "test": "ts-node --prefer-ts-exts ./lib/Base32.test.ts",
+    "start": "ts-node --prefer-ts-exts server.ts"
+  },
+  "dependencies": {
+    "qrcode": "^1.5.4"
   }
 }
