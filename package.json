@@ -6,13 +6,13 @@
   "author": "shonakam <g3tsuzumi@gmail.com>",
   "license": "MIT",
   "devDependencies": {
-    "@types/node": "^25.0.0",
+    "@types/node": "^25.0.1",
     "@types/qrcode": "^1.5.6",
     "ts-node": "^10.9.2",
     "typescript": "^5.9.3"
   },
   "scripts": {
-    "test": "ts-node --prefer-ts-exts ./lib/Base32.test.ts",
+    "test": "ts-node --prefer-ts-exts ./lib/sha1.test.ts",
     "start": "ts-node --prefer-ts-exts server.ts"
   },
   "dependencies": {
