@@ -12,7 +12,7 @@
     "typescript": "^5.9.3"
   },
   "scripts": {
-    "test": "ts-node --prefer-ts-exts ./lib/sha1.test.ts",
+    "test": "ts-node --prefer-ts-exts ./lib/minitotp.test.ts",
     "start": "ts-node --prefer-ts-exts server.ts"
   },
   "dependencies": {

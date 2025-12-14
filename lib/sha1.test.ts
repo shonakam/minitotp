@@ -3,9 +3,9 @@ import * as crypto from 'crypto'
 import * as assert from 'assert'
 
 function main() {
-    const msg = "Hello world!"
+    const msg = Buffer.from("Hello world!", 'utf8')
     const rebuild_digest = SHA1.hash(msg).toString('hex')
-    const builtin_digest = crypto.createHash('sha1').update(msg, 'utf8').digest('hex');
+    const builtin_digest = crypto.createHash('sha1').digest('hex');
 
     console.log(`input message: "${msg}"`);
     console.log(`rebuild_digest: ${rebuild_digest}`);

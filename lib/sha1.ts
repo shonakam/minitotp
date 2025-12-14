@@ -1,19 +1,11 @@
 // SHA1: https://datatracker.ietf.org/doc/html/rfc3174
 
 export class SHA1 {
-    private static readonly WORD_BIT_SIZE = 32
-    private static readonly BLOCK_SIZE = this.WORD_BIT_SIZE * 16
+    public static readonly WORD_BIT_SIZE = 32
+    public static readonly BLOCK_SIZE = this.WORD_BIT_SIZE * 16
     private static readonly ROUND_MAX = 80
     private static readonly CONSTANT_WORDS_K = {sq1: 0x5A827999, sq2: 0x6ED9EBA1, sq3: 0x8F1BBCDC, sq4: 0xCA62C1D6}
     private static readonly INITIAL_HASH_BUFFER = [0x67452301, 0xEFCDAB89, 0x98BADCFE, 0x10325476, 0xC3D2E1F0]
-
-    public static get ipad(): Buffer {
-        return Buffer.alloc(this.BLOCK_SIZE, 0x36); 
-    }
-
-    public static get opad(): Buffer {
-        return Buffer.alloc(this.BLOCK_SIZE, 0x5C);
-    }
 
     private static choose(B: number, C: number, D: number): number { return (B & C) | (~B & D) }
     private static parity(B: number, C: number, D: number): number { return B ^ C ^ D }
@@ -33,9 +25,8 @@ export class SHA1 {
         return this.CONSTANT_WORDS_K.sq4
     }
 
-    private static padding(message: string): Buffer {
-        const messageBuffer = Buffer.from(message, 'utf8')
-        const originalBitLength = BigInt(messageBuffer.length) * 8n
+    private static padding(message: Buffer): Buffer {
+        const originalBitLength = BigInt(message.length) * 8n
 
         const currentBits = originalBitLength + 1n
 
@@ -44,11 +35,11 @@ export class SHA1 {
         if (kBits <= 0n) kBits += BigInt(this.BLOCK_SIZE)
         
         const paddingLengthBytes = Number((1n + kBits) / 8n)
-        const finalLengthBytes = messageBuffer.length + paddingLengthBytes + 8
+        const finalLengthBytes = message.length + paddingLengthBytes + 8
         
         const paddedBuffer = Buffer.alloc(finalLengthBytes)
-        messageBuffer.copy(paddedBuffer, 0);
-        paddedBuffer[messageBuffer.length] = 0x80
+        message.copy(paddedBuffer, 0);
+        paddedBuffer[message.length] = 0x80
 
         paddedBuffer.writeBigUInt64BE(originalBitLength, finalLengthBytes - 8)
         return paddedBuffer
@@ -60,7 +51,7 @@ export class SHA1 {
      * @param message 2^64-1bit 未満のメッセージ
      * @returns 160bit メッセージダイジェスト
     */
-    public static hash(message: string) {
+    public static hash(message: Buffer) {
         const processed = this.padding(message)
         let H = [...this.INITIAL_HASH_BUFFER]
         const blocks = processed.length / (this.BLOCK_SIZE / 8)
