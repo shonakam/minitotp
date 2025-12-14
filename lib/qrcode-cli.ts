@@ -5,12 +5,12 @@ export class QRCLI {
         const options: qrcode.QRCodeToStringOptionsTerminal = {
             type: 'terminal',
             errorCorrectionLevel: 'M',
-            version: 4,
+            version: 8,
             small: true
         }
         try {
             const qrCodeString = await qrcode.toString(arg, options)
-            console.log(qrCodeString);
+            console.log(`${qrCodeString}`)
         } catch (e) {
             console.error(e)
         }
