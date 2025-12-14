@@ -1,8 +1,8 @@
 {
-  "name": "Base32-ts",
+  "name": "minitotp",
   "version": "1.0.0",
   "main": "index.js",
-  "repository": "git@github.com:shonakam/BaseN-ts.git",
+  "repository": "git@github.com:shonakam/minitotp.git",
   "author": "shonakam <g3tsuzumi@gmail.com>",
   "license": "MIT",
   "devDependencies": {
