@@ -2,14 +2,18 @@
 // https://datatracker.ietf.org/doc/html/rfc4648
 
 export class Base32 {
-    private table: string[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZ234567".split("")
-    private rev: Record<string, number> = {}
-    private PADDING_CHAR = '='
-    private BITS_PER_CHAR = 5; // 32=2^5
+    private static table: string[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZ234567".split("")
+    private static rev: Record<string, number> = {}
+    private static PADDING_CHAR = '='
+    private static BITS_PER_CHAR = 5; // 32=2^5
 
-    constructor() { for (let i = 0; i < this.table.length; ++i) this.rev[this.table[i]!] = i }
+    static {
+        for (let i = 0; i < this.table.length; ++i) {
+            this.rev[this.table[i]!] = i;
+        }
+    }
 
-    private *bitStream(bytes: Uint8Array) {
+    private static *bitStream(bytes: Uint8Array) {
         for (const b of bytes) {
             for (let i = 7; i >= 0; --i) {
                 yield (b >> i) & 0x00000001
@@ -17,7 +21,7 @@ export class Base32 {
         }
     }
 
-    private *takeBits(stream: Generator<number>): Generator<number> {
+    private static *takeBits(stream: Generator<number>): Generator<number> {
         let buff = 0, bits = 0
 
         for (const bit of stream) {
@@ -36,7 +40,7 @@ export class Base32 {
         }
     }
 
-    public encode(bytes: Uint8Array): string {
+    public static encode(bytes: Uint8Array): string {
         const bitStream = this.bitStream(bytes)
         const groups = this.takeBits(bitStream);
 
@@ -49,7 +53,7 @@ export class Base32 {
         return out += this.PADDING_CHAR.repeat(targetLength - outputLength)
     }
 
-    public decode(arg: string): Uint8Array {
+    public static decode(arg: string): Uint8Array {
         const out: number[] = [];
         const chars = arg.toUpperCase();
         let buffer = 0;
@@ -71,7 +75,7 @@ export class Base32 {
         return new Uint8Array(out);
     }
 
-    public decodeToString(arg: string): string {
+    public static decodeToString(arg: string): string {
         const bytes = this.decode(arg);
         try {
             return new TextDecoder().decode(bytes);

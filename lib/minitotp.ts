@@ -1,3 +1,4 @@
+import { Base32 } from "./base32"
 import { SHA1 } from "./sha1"
 /*
  * TOTP: https://datatracker.ietf.org/doc/html/rfc6238
@@ -91,10 +92,10 @@ export class MiniTOTP {
         const encodedUser = encodeURIComponent(user)
         const label = `${encodedIssuer}:${encodedUser}`
         const params = new URLSearchParams()
-        params.append('secret', secret)
+        params.append('secret', Base32.encode(Buffer.from(secret, 'utf8')))
         params.append('issuer', encodedIssuer)
         params.append('digits', this.CODE_DIGITS.toString())
-        params.append('period', MiniTOTP.toString())
+        params.append('period', MiniTOTP.TIME_STEP.toString())
         // params.append('algorithm', 'sha1')
         return `otpauth://totp/${label}?${params.toString()}`
     }

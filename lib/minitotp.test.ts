@@ -8,11 +8,7 @@ interface TestVectorsSHA1 {
     totp: string
 }
 
-function main() {
-    const user = "shonakam"
-    const issuer = "minitotp_server"
-    const K = Buffer.from("12345678901234567890", 'utf8')
-
+function table(K: Buffer) {
     const tests: TestVectorsSHA1[] = [
         { timeSec: 59, totp: '94287082' },
         { timeSec: 1111111109, totp: '07081804' },
@@ -35,6 +31,17 @@ function main() {
             console.log(`case[${i}]: ❌`)
         }
     }
+}
+
+function main() {
+    const user = "shonakam"
+    const issuer = "minitotp_server"
+    const secret = "12345678901234567890"
+    const K = Buffer.from(secret, 'utf8')
+    table(K)
+
+    const mini = new MiniTOTP()
+    console.log(mini.URI(Base32.encode(K), user, issuer))
 }
 
 main()
