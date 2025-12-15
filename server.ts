@@ -26,7 +26,9 @@ async function main() {
             case "add": { 
                 const secret = crypto.randomBytes(20).toString()
                 db[command[1]] = secret
-                await QRCLI.write(minitotp.URI(secret, command[1]!, iss))
+                const URI = minitotp.URI(secret, command[1]!, iss)
+                console.log(`\nURI: ${URI}\n`)
+                await QRCLI.write(URI)
                 break 
             }
             case "verify": {
@@ -42,6 +44,7 @@ async function main() {
                     console.log("response: verification success 😸👌")
                 else
                     console.log("response: verification failed ✋😿🤚")
+                break
             }
             case "code": {
                 if (db[command[1]] === undefined) {

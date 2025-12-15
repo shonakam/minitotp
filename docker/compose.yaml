@@ -1,0 +1,21 @@
+x-logging: &logging
+  logging:
+    driver: "json-file"
+    options:
+      max-file: "10"
+      max-size: "100m"
+
+services:
+  workspace:
+    container_name: "minitotp"
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile
+    hostname: "dev-terminal"
+    working_dir: /app
+    command: bash
+    stdin_open: true
+    tty: true
+    volumes:
+      - "..:/app"
+    <<: *logging
