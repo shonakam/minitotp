@@ -75,6 +75,7 @@ npm test
   - [RFC 6238 - TOTP](https://datatracker.ietf.org/doc/html/rfc6238)
   - [RFC 4226 - HOTP](https://datatracker.ietf.org/doc/html/rfc4226)
   - [RFC 2104 - HMAC](https://datatracker.ietf.org/doc/html/rfc2104)
+  - [RFC 3147 - SHA1](https://datatracker.ietf.org/doc/html/rfc3174)
 
 ## License
 

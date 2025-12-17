@@ -87,17 +87,20 @@ export class MiniTOTP {
         return this.generateHOTP(K, C).toString().padStart(this.CODE_DIGITS, '0')
     }
 
+    // https://www.iana.org/assignments/uri-schemes/prov/otpauth
+    // https://github.com/google/google-authenticator/wiki/Key-Uri-Format
     public URI(secret: string, user: string, issuer: string): string {
         const encodedIssuer = encodeURIComponent(issuer)
         const encodedUser = encodeURIComponent(user)
-        const label = `${encodedIssuer}:${encodedUser}`
+        const label = `${encodedIssuer}%3A${encodedUser}` // ":" / "%3A"
+        const encodedSecret = Base32.encode(Buffer.from(secret, 'utf8'))
         const params = new URLSearchParams()
-        params.append('secret', Base32.encode(Buffer.from(secret, 'utf8')))
         params.append('issuer', encodedIssuer)
         params.append('digits', this.CODE_DIGITS.toString())
         params.append('period', MiniTOTP.TIME_STEP.toString())
         // params.append('algorithm', 'sha1')
-        return `otpauth://totp/${label}?${params.toString()}`
+        const queryString = `secret=${encodedSecret}&${params.toString()}`
+        return `otpauth://totp/${label}?${queryString}`
     }
 
     public verify(K: Buffer, code: number | string, window: number = 1): boolean {
